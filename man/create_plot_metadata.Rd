@@ -11,6 +11,8 @@ This function takes in a MatchIt object and returns a dataframe that can used to
  create love plots using the create_love_plot function
 }
 \details{
-@param match_object MatchIt object that contains metadate about pre and post match dataframes
+details
+
+ @param match_object MatchIt object that contains metadate about pre and post match dataframes
  @export
 }
