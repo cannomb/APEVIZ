@@ -1,12 +1,11 @@
 
-#' Create a dataframe of pre and post matched standard mean difference between treatment and control groups
+#' Creates a dataframe of pre and post matched standard mean difference between treatment and control groups
 #'
-#'  This function takes in a MatchIt object and returns a dataframe that can used to
-#'  create love plots using the create_love_plot function
+#' This function takes in a MatchIt object and returns a dataframe that can used to
+#' create love plots using the create_love_plot function
 #'
-#'  @param match_object MatchIt object that contains metadate about pre and post match dataframes
+#'  @param match_object MatchIt object that contains metadate about pre and post match dataframes.
 #'  @export
-#'
 create_plot_metadata <- function(match_object){
 
   return(
