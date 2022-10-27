@@ -1,11 +1,26 @@
 
-#' Creates a dataframe of pre and post matched standard mean difference between treatment and control groups
+
+
+
+#' Creates a dataframe of pre and post matched standard mean difference between treatment and control groups.
 #'
 #' This function takes in a MatchIt object and returns a dataframe that can used to
-#' create love plots using the create_love_plot function
+#' create love plots using the create_love_plot function.
 #'
-#'  @param match_object MatchIt object that contains metadate about pre and post match dataframes.
-#'  @export
+#' @param match_object MatchIt object that contains metadate about pre and post match dataframes.
+#' @export
+#' @examples
+#' # load the MathIt Package and load the included "lalonde" dataset
+#' library("MatchIt")
+#' data("lalonde", package = "MatchIt")
+#'
+#' # Create a MatchIt Object using the matchit() function
+#' m.out <- matchit(treat ~ age + educ + race + married + nodegree + re74 + re75,
+#'                  data = lalonde,
+#'                  distance = "mahalanobis",
+#'                  replace = TRUE)
+#'
+#' create_plot_metadata(m.out)
 create_plot_metadata <- function(match_object){
 
   return(
@@ -16,7 +31,7 @@ create_plot_metadata <- function(match_object){
     left_join(summary(match_object)$sum.matched %>%
                 tibble::as_tibble(rownames = "covariate") %>%
                 janitor::clean_names() %>%
-                tidyselect::select(covariate, cem_std_mean_diff = std_mean_diff))
+                dplyr::select(covariate, matched_std_mean_diff = std_mean_diff))
   )
 
 }
@@ -42,9 +57,27 @@ create_plot_metadata <- function(match_object){
 #' @param axis_text_hjusts Only applies when horizontal is TRUE, defaults to 1.
 #' @param legend_position Defaults to "bottom". takes any string the legend.position argument excepts in ggplot::theme.
 #' @export
+#' @examples
+#' # load the MathIt Package and load the included "lalonde" dataset
+#' library("MatchIt")
+#' data("lalonde", package = "MatchIt")
+#'
+#' # Create a MatchIt Object using the matchit() function
+#' match <- matchit(treat ~ age + educ + race + married + nodegree + re74 + re75,
+#'                  data = lalonde,
+#'                  distance = "mahalanobis",
+#'                  replace = TRUE)
+#'
+#' create_love_plot(match)
+#'
+#' # if something other than MatchIt was used to get a matched dataset, you can use a dataframe with the following
+#' # columns as input
+#' # - "covariate" (character)
+#' # - "unmatched_std_mean_diff" (numeric)
+#' # - "matched_std_mean_diff" (numeric)
 create_love_plot <- function(input,
-                             title,
-                             subtitle,
+                             title = "untitled",
+                             subtitle = "untitled",
                              horizontal = FALSE,
                              segment_size = 0.3,
                              segment_color = "#b0aba5",
@@ -97,6 +130,45 @@ create_love_plot <- function(input,
   }
 
   if(class(input)[1] == "matchit"){
+    match_data <- create_plot_metadata(input)
+
+    match_data %>%
+      ggplot2::ggplot(aes(y = reorder(covariate, abs(unmatched_std_mean_diff)))) +
+      geom_segment(aes(x = abs(cem_std_mean_diff), xend = abs(unmatched_std_mean_diff),
+                       yend = reorder(covariate, unmatched_std_mean_diff)),
+                   size = segment_size,
+                   color = segment_color) +
+      geom_point(aes(x = abs(unmatched_std_mean_diff),
+                     color = "Unmatched and Unpruned")) +
+      geom_point(aes(x = abs(cem_std_mean_diff),
+                     color = "Matched and Pruned")) +
+      scale_color_manual(values = c(matched_color, prematched_color)) +
+      guides(color = guide_legend(override.aes = list(size = 5))) +
+      labs(y = "",
+           x = "Absolute Standardized Mean Difference",
+           color = "",
+           title = title,
+           subtitle = subtitle) +
+      {if(horizontal) list(coord_flip(),
+                           theme(panel.grid.major.x = element_blank(),
+                                 panel.background = element_rect(fill = background_color),
+                                 plot.background = element_rect(fill = background_color),
+                                 legend.background = element_rect(fill = background_color),
+                                 panel.grid = element_line(linetype = "dashed", color = "#73777B"),
+                                 #axis.ticks = element_blank(),
+                                 axis.text.x = element_text(size = axis_text_size,
+                                                            angle = axis_text_angle,
+                                                            hjust = axis_text_hjust),
+                                 plot.title.position = "plot",
+                                 legend.position = legend_position))} +
+      {if(horizontal == FALSE) theme(panel.grid.major.y = element_blank(),
+                                     panel.background = element_rect(fill = background_color),
+                                     plot.background = element_rect(fill = background_color),
+                                     legend.background = element_rect(fill = background_color),
+                                     panel.grid = element_line(linetype = "dashed", color = "#73777B"),
+                                     #axis.ticks = element_blank(),
+                                     plot.title.position = "plot",
+                                     legend.position = legend_position)}
 
   }
 }

@@ -6,8 +6,8 @@
 \usage{
 create_love_plot(
   input,
-  title,
-  subtitle,
+  title = "untitled",
+  subtitle = "untitled",
   horizontal = FALSE,
   segment_size = 0.3,
   segment_color = "#b0aba5",
@@ -50,4 +50,23 @@ create_love_plot(
 \description{
 This function takes in a dataframe created with the create_plot_metadata function
 as an input and outputs a loveplot
+}
+\examples{
+# load the MathIt Package and load the included "lalonde" dataset
+library("MatchIt")
+data("lalonde", package = "MatchIt")
+
+# Create a MatchIt Object using the matchit() function
+match <- matchit(treat ~ age + educ + race + married + nodegree + re74 + re75,
+                 data = lalonde,
+                 distance = "mahalanobis",
+                 replace = TRUE)
+
+create_love_plot(match)
+
+# if something other than MatchIt was used to get a matched dataset, you can use a dataframe with the following
+# columns as input
+# - "covariate" (character)
+# - "unmatched_std_mean_diff" (numeric)
+# - "matched_std_mean_diff" (numeric)
 }

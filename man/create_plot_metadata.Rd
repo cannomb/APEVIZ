@@ -2,17 +2,27 @@
 % Please edit documentation in R/program_evaluation_plotting_functions.R
 \name{create_plot_metadata}
 \alias{create_plot_metadata}
-\title{Create a dataframe of pre and post matched standard mean difference between treatment and control groups}
+\title{Creates a dataframe of pre and post matched standard mean difference between treatment and control groups.}
 \usage{
 create_plot_metadata(match_object)
 }
+\arguments{
+\item{match_object}{MatchIt object that contains metadate about pre and post match dataframes.}
+}
 \description{
 This function takes in a MatchIt object and returns a dataframe that can used to
- create love plots using the create_love_plot function
+create love plots using the create_love_plot function.
 }
-\details{
-details
+\examples{
+# load the MathIt Package and load the included "lalonde" dataset
+library("MatchIt")
+data("lalonde", package = "MatchIt")
 
- @param match_object MatchIt object that contains metadate about pre and post match dataframes
- @export
+# Create a MatchIt Object using the matchit() function
+m.out <- matchit(treat ~ age + educ + race + married + nodegree + re74 + re75,
+                 data = lalonde,
+                 distance = "mahalanobis",
+                 replace = TRUE)
+
+create_plot_metadata(m.out)
 }
