@@ -12,7 +12,7 @@ create_plot_metadata <- function(match_object){
     summary(match_object)$sum.all %>%
     tibble::as_tibble(rownames = "covariate") %>%
     janitor::clean_names() %>%
-    tidyselect::select(covariate, unmatched_std_mean_diff = std_mean_diff) %>%
+    dplyr::select(covariate, unmatched_std_mean_diff = std_mean_diff) %>%
     left_join(summary(match_object)$sum.matched %>%
                 tibble::as_tibble(rownames = "covariate") %>%
                 janitor::clean_names() %>%

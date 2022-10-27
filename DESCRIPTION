@@ -12,7 +12,6 @@ LazyData: true
 RoxygenNote: 7.2.1
 Imports:
   tibble,
-  tidyselect,
   dplyr,
   janitor,
   lmtest
