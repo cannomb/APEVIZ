@@ -10,6 +10,7 @@ create_love_plot(
   subtitle = "untitled",
   horizontal = FALSE,
   segment_size = 0.3,
+  point_size = 1,
   segment_color = "#b0aba5",
   matched_color = "#30694a",
   prematched_color = "#9c513a",
@@ -30,6 +31,8 @@ create_love_plot(
 \item{horizontal}{Defaults to FALSE. When TRUE, the plot will be horizontal instead of vertical,}
 
 \item{segment_size}{Defaults to 0.3. The size of the segments connecting treatment and control dot geoms.}
+
+\item{point_size}{Defaults to 1. The side of the point geoms.}
 
 \item{segment_color}{Defaults to "#b0aba5". A string indicating the color of the segments connecting treatment and control dot geoms.}
 

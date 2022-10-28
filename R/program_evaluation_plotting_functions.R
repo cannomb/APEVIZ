@@ -94,14 +94,14 @@ create_love_plot <- function(input,
   if(class(input)[1] == "tbl_df"){
     return(input %>%
       ggplot2::ggplot(aes(y = reorder(covariate, abs(unmatched_std_mean_diff)))) +
-      geom_segment(aes(x = abs(cem_std_mean_diff), xend = abs(unmatched_std_mean_diff),
+      geom_segment(aes(x = abs(matched_std_mean_diff), xend = abs(unmatched_std_mean_diff),
                        yend = reorder(covariate, unmatched_std_mean_diff)),
                    size = segment_size,
                    color = segment_color) +
       geom_point(aes(x = abs(unmatched_std_mean_diff),
                      color = "Unmatched and Unpruned"),
                  size = point_size) +
-      geom_point(aes(x = abs(cem_std_mean_diff),
+      geom_point(aes(x = abs(matched_std_mean_diff),
                      color = "Matched and Pruned"),
                  size = point_size) +
       scale_color_manual(values = c(matched_color, prematched_color)) +
@@ -138,13 +138,13 @@ create_love_plot <- function(input,
 
     match_data %>%
       ggplot2::ggplot(aes(y = reorder(covariate, abs(unmatched_std_mean_diff)))) +
-      geom_segment(aes(x = abs(cem_std_mean_diff), xend = abs(unmatched_std_mean_diff),
+      geom_segment(aes(x = abs(matched_std_mean_diff), xend = abs(unmatched_std_mean_diff),
                        yend = reorder(covariate, unmatched_std_mean_diff)),
                    size = segment_size,
                    color = segment_color) +
       geom_point(aes(x = abs(unmatched_std_mean_diff),
                      color = "Unmatched and Unpruned")) +
-      geom_point(aes(x = abs(cem_std_mean_diff),
+      geom_point(aes(x = abs(matched_std_mean_diff),
                      color = "Matched and Pruned")) +
       scale_color_manual(values = c(matched_color, prematched_color)) +
       guides(color = guide_legend(override.aes = list(size = 5))) +
