@@ -46,6 +46,7 @@ create_plot_metadata <- function(match_object){
 #' @param input Dataframe created from the create_plot_metadata function.
 #' @param title A string to be used as the title of the plot.
 #' @param subtitle A string to be used as the subtitle of the plot.
+#' @param order_by Defaults to "unmatched". A string indicating how the y-axis should be ordered, options are "unmatched", "matched", or "difference".
 #' @param horizontal Defaults to FALSE. When TRUE, the plot will be horizontal instead of vertical,
 #' @param segment_size Defaults to 0.3. The size of the segments connecting treatment and control dot geoms.
 #' @param point_size Defaults to 1. The side of the point geoms.
@@ -79,6 +80,7 @@ create_plot_metadata <- function(match_object){
 create_love_plot <- function(input,
                              title = "untitled",
                              subtitle = "untitled",
+                             order_by = "unmatched",
                              horizontal = FALSE,
                              segment_size = 0.3,
                              point_size = 1,
@@ -90,54 +92,60 @@ create_love_plot <- function(input,
                              axis_text_angle = 45,
                              axis_text_hjusts = 1,
                              legend_position = "bottom"
-                             ){
+){
   if(class(input)[1] == "tbl_df"){
     return(input %>%
-      ggplot2::ggplot(aes(y = reorder(covariate, abs(unmatched_std_mean_diff)))) +
-      geom_segment(aes(x = abs(matched_std_mean_diff), xend = abs(unmatched_std_mean_diff),
-                       yend = reorder(covariate, unmatched_std_mean_diff)),
-                   size = segment_size,
-                   color = segment_color) +
-      geom_point(aes(x = abs(unmatched_std_mean_diff),
-                     color = "Unmatched and Unpruned"),
-                 size = point_size) +
-      geom_point(aes(x = abs(matched_std_mean_diff),
-                     color = "Matched and Pruned"),
-                 size = point_size) +
-      scale_color_manual(values = c(matched_color, prematched_color)) +
-      guides(color = guide_legend(override.aes = list(size = 5))) +
-      labs(y = "",
-           x = "Absolute Standardized Mean Difference",
-           color = "",
-           title = title,
-           subtitle = subtitle) +
-      {if(horizontal) list(coord_flip(),
-                           theme(panel.grid.major.x = element_blank(),
-                                 panel.background = element_rect(fill = background_color),
-                                 plot.background = element_rect(fill = background_color),
-                                 legend.background = element_rect(fill = background_color),
-                                 panel.grid = element_line(linetype = "dashed", color = "#73777B"),
-                                 #axis.ticks = element_blank(),
-                                 axis.text.x = element_text(size = axis_text_size,
-                                                            angle = axis_text_angle,
-                                                            hjust = axis_text_hjust),
-                                 plot.title.position = "plot",
-                                 legend.position = legend_position))} +
-      {if(horizontal == FALSE) theme(panel.grid.major.y = element_blank(),
-                                     panel.background = element_rect(fill = background_color),
-                                     plot.background = element_rect(fill = background_color),
-                                     legend.background = element_rect(fill = background_color),
-                                     panel.grid = element_line(linetype = "dashed", color = "#73777B"),
-                                     #axis.ticks = element_blank(),
-                                     plot.title.position = "plot",
-                                     legend.position = legend_position)})
+             ggplot2::ggplot() +
+             {if(order_by == "unmatched") aes(y = reorder(covariate, abs(unmatched_std_mean_diff)))} +
+             {if(order_by == "matched") aes(y = reorder(covariate, abs(matched_std_mean_diff)))} +
+             {if(order_by == "difference") aes(y = reorder(covariate, (abs(unmatched_std_mean_diff) - abs(matched_std_mean_diff))))} +
+             geom_segment(aes(x = abs(matched_std_mean_diff), xend = abs(unmatched_std_mean_diff),
+                              yend = covariate),
+                          size = segment_size,
+                          color = segment_color) +
+             geom_point(aes(x = abs(unmatched_std_mean_diff),
+                            color = "Unmatched and Unpruned"),
+                        size = point_size) +
+             geom_point(aes(x = abs(matched_std_mean_diff),
+                            color = "Matched and Pruned"),
+                        size = point_size) +
+             scale_color_manual(values = c(matched_color, prematched_color)) +
+             guides(color = guide_legend(override.aes = list(size = 5))) +
+             labs(y = "",
+                  x = "Absolute Standardized Mean Difference",
+                  color = "",
+                  title = title,
+                  subtitle = subtitle) +
+             {if(horizontal) list(coord_flip(),
+                                  theme(panel.grid.major.x = element_blank(),
+                                        panel.background = element_rect(fill = background_color),
+                                        plot.background = element_rect(fill = background_color),
+                                        legend.background = element_rect(fill = background_color),
+                                        panel.grid = element_line(linetype = "dashed", color = "#73777B"),
+                                        #axis.ticks = element_blank(),
+                                        axis.text.x = element_text(size = axis_text_size,
+                                                                   angle = axis_text_angle,
+                                                                   hjust = axis_text_hjust),
+                                        plot.title.position = "plot",
+                                        legend.position = legend_position))} +
+             {if(horizontal == FALSE) theme(panel.grid.major.y = element_blank(),
+                                            panel.background = element_rect(fill = background_color),
+                                            plot.background = element_rect(fill = background_color),
+                                            legend.background = element_rect(fill = background_color),
+                                            panel.grid = element_line(linetype = "dashed", color = "#73777B"),
+                                            #axis.ticks = element_blank(),
+                                            plot.title.position = "plot",
+                                            legend.position = legend_position)})
   }
 
   if(class(input)[1] == "matchit"){
     match_data <- create_plot_metadata(input)
 
     match_data %>%
-      ggplot2::ggplot(aes(y = reorder(covariate, abs(unmatched_std_mean_diff)))) +
+      ggplot2::ggplot() +
+      {if(order_by == "unmatched") aes(y = reorder(covariate, abs(unmatched_std_mean_diff)))} +
+      {if(order_by == "matched") aes(y = reorder(covariate, abs(matched_std_mean_diff)))} +
+      {if(order_by == "difference") aes(y = reorder(covariate, (abs(unmatched_std_mean_diff) - abs(matched_std_mean_diff))))} +
       geom_segment(aes(x = abs(matched_std_mean_diff), xend = abs(unmatched_std_mean_diff),
                        yend = reorder(covariate, unmatched_std_mean_diff)),
                    size = segment_size,

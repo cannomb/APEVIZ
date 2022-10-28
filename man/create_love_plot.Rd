@@ -8,6 +8,7 @@ create_love_plot(
   input,
   title = "untitled",
   subtitle = "untitled",
+  order_by = "unmatched",
   horizontal = FALSE,
   segment_size = 0.3,
   point_size = 1,
@@ -27,6 +28,8 @@ create_love_plot(
 \item{title}{A string to be used as the title of the plot.}
 
 \item{subtitle}{A string to be used as the subtitle of the plot.}
+
+\item{order_by}{Defaults to "unmatched". A string indicating how the y-axis should be ordered, options are "unmatched", "matched", or "difference".}
 
 \item{horizontal}{Defaults to FALSE. When TRUE, the plot will be horizontal instead of vertical,}
 
