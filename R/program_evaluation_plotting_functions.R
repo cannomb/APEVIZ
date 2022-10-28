@@ -48,6 +48,7 @@ create_plot_metadata <- function(match_object){
 #' @param subtitle A string to be used as the subtitle of the plot.
 #' @param horizontal Defaults to FALSE. When TRUE, the plot will be horizontal instead of vertical,
 #' @param segment_size Defaults to 0.3. The size of the segments connecting treatment and control dot geoms.
+#' @param point_size Defaults to 1. The side of the point geoms.
 #' @param segment_color Defaults to "#b0aba5". A string indicating the color of the segments connecting treatment and control dot geoms.
 #' @param matched_color Defaults to "#30694a". A string indicating the color of the dot geoms representing the matched set value.
 #' @param prematched_color Defaults to "#9c513a". A string indicating the color of the dot geoms representing the prematched set value.
@@ -80,6 +81,7 @@ create_love_plot <- function(input,
                              subtitle = "untitled",
                              horizontal = FALSE,
                              segment_size = 0.3,
+                             point_size = 1,
                              segment_color = "#b0aba5",
                              matched_color = "#30694a",
                              prematched_color = "#9c513a",
@@ -97,9 +99,11 @@ create_love_plot <- function(input,
                    size = segment_size,
                    color = segment_color) +
       geom_point(aes(x = abs(unmatched_std_mean_diff),
-                     color = "Unmatched and Unpruned")) +
+                     color = "Unmatched and Unpruned"),
+                 size = point_size) +
       geom_point(aes(x = abs(cem_std_mean_diff),
-                     color = "Matched and Pruned")) +
+                     color = "Matched and Pruned"),
+                 size = point_size) +
       scale_color_manual(values = c(matched_color, prematched_color)) +
       guides(color = guide_legend(override.aes = list(size = 5))) +
       labs(y = "",
