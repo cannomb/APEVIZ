@@ -7,9 +7,8 @@ a suite of data visualization functions I've used in causal effect estimation fo
 
 
 ## Installation 
-```{r}
+```{r eval=FALSE, include=FALSE}
 devtools::install_github("https://github.com/cannomb/APEVIZ")
-library(APEVIZ)
 ```
 
 ### create_plot_metadata() 
@@ -17,7 +16,9 @@ This function is mostly used as a part of the create_love_plot() function, howev
 
 ```{r}
 # Load the MatchIt package
+library(APEVIZ)
 library(MatchIt)
+library(tidyverse)
 
 # Load the Lalonde Dataset 
 data("lalonde", package = "MatchIt")
