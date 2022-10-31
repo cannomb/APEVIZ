@@ -2,4 +2,34 @@
 output: github_document
 ---
 
-# test readme
+# APEVIZ
+a suite of data visualization functions I've used in causal effect estimation for program evaluation
+
+
+## Installation 
+```{r}
+devtools::install_github("https://github.com/cannomb/APEVIZ")
+library(APEVIZ)
+```
+
+### create_plot_metadata() 
+This function is mostly used as a part of the create_love_plot() function, however I've made it available to use on it's own as well. It takes in a matchit object (from the MatchIt package) and returns a tibble that includes a column for each variable in the data used by MatchIt, a column for the standard mean difference between the treatment and control group in the unmatched sample, and a column for the standard mean difference between the treatement and control group in the matched sample.
+
+```{r}
+# Load the MatchIt package
+library(MatchIt)
+
+# Load the Lalonde Dataset 
+data("lalonde", package = "MatchIt")
+
+# Create a MatchIt object using the matchit() function
+m.out <- matchit(treat ~ age + educ + race + married + nodegree + re74 + re75,
+                 data = lalonde,
+                 distance = "mahalanobis",
+                 replace = TRUE)
+
+create_plot_metadata(m.out)
+
+
+```
+
