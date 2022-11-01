@@ -22,18 +22,7 @@ sample.
 library(APEVIZ)
 library(MatchIt)
 library(tidyverse)
-```
 
-    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-    ## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
-    ## ✔ tibble  3.1.8     ✔ dplyr   1.0.9
-    ## ✔ tidyr   1.2.1     ✔ stringr 1.4.1
-    ## ✔ readr   2.1.3     ✔ forcats 0.5.2
-    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-    ## ✖ dplyr::filter() masks stats::filter()
-    ## ✖ dplyr::lag()    masks stats::lag()
-
-``` r
 # Load the Lalonde Dataset 
 data("lalonde", package = "MatchIt")
 
@@ -45,8 +34,6 @@ m.out <- matchit(treat ~ age + educ + race + married + nodegree + re74 + re75,
 
 create_plot_metadata(m.out)
 ```
-
-    ## Joining, by = "covariate"
 
     ## # A tibble: 9 × 3
     ##   covariate  unmatched_std_mean_diff matched_std_mean_diff
@@ -60,3 +47,56 @@ create_plot_metadata(m.out)
     ## 7 nodegree                    0.245              -1.11e-16
     ## 8 re74                       -0.721               6.28e- 2
     ## 9 re75                       -0.290               1.38e- 1
+
+### create_love_plot
+
+This function takes in a matchit object **OR** tibble in the same format
+(column names included) as the output from the create_plot_metadata()
+function and returns a love plot as a ggplot2 object. This function
+includes many options for customization.
+
+``` r
+create_love_plot(m.out,
+                 title = "Results of a mahalanobis distance match on the Lalonde Dataset",
+                 subtitle = "")
+```
+
+    ## Joining, by = "covariate"
+
+![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+
+``` r
+# change the order of the y axis
+
+default <- create_love_plot(m.out,
+                            title = "order_by = unmatched",
+                            subtitle = "")
+```
+
+    ## Joining, by = "covariate"
+
+``` r
+matched <- create_love_plot(m.out,
+                            title = "order_by = matched",
+                            order_by = "matched",
+                            subtitle = "")
+```
+
+    ## Joining, by = "covariate"
+
+``` r
+difference <- create_love_plot(m.out,
+                               title = "order_by = difference",
+                               order_by = "difference",
+                               subtitle = "")
+```
+
+    ## Joining, by = "covariate"
+
+``` r
+library(patchwork)
+
+default|matched|difference
+```
+
+![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
