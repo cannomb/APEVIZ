@@ -69,19 +69,19 @@ create_love_plot(m.out,
 default <- create_love_plot(m.out,
                             title = "order_by = unmatched",
                             subtitle = "",
-                            axis_text_size = 1)
+                            axis_text_size = 4)
 
 matched <- create_love_plot(m.out,
                             title = "order_by = matched",
                             order_by = "matched",
                             subtitle = "",
-                            axis_text_size = 1)
+                            axis_text_size = 4)
 
 difference <- create_love_plot(m.out,
                                title = "order_by = difference",
                                order_by = "difference",
                                subtitle = "",
-                               axis_text_size = 1)
+                               axis_text_size = 4)
 
 library(patchwork)
 

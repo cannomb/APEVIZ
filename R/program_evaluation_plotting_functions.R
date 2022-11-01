@@ -135,7 +135,10 @@ create_love_plot <- function(input,
                                             panel.grid = element_line(linetype = "dashed", color = "#73777B"),
                                             #axis.ticks = element_blank(),
                                             plot.title.position = "plot",
-                                            legend.position = legend_position)})
+                                            legend.position = legend_position,
+                                            axis.text.x = element_text(size = axis_text_size,
+                                                                       angle = axis_text_angle,
+                                                                       hjust = axis_text_hjust))})
   }
 
   if(class(input)[1] == "matchit"){
@@ -180,7 +183,10 @@ create_love_plot <- function(input,
                                      panel.grid = element_line(linetype = "dashed", color = "#73777B"),
                                      #axis.ticks = element_blank(),
                                      plot.title.position = "plot",
-                                     legend.position = legend_position)}
+                                     legend.position = legend_position,
+                                     axis.text.x = element_text(size = axis_text_size,
+                                                                angle = axis_text_angle,
+                                                                hjust = axis_text_hjust))}
 
   }
 }
