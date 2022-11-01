@@ -37,7 +37,7 @@ create_plot_metadata(m.out)
 ### create_love_plot
 This function takes in a matchit object **OR** tibble in the same format (column names included) as the output from the create_plot_metadata() function and returns a love plot as a ggplot2 object. This function includes many options for customization. 
 
-```{r}
+```{r message=FALSE, warning=FALSE, fig.width=10}
 create_love_plot(m.out,
                  title = "Results of a mahalanobis distance match on the Lalonde Dataset",
                  subtitle = "")
@@ -46,17 +46,20 @@ create_love_plot(m.out,
 
 default <- create_love_plot(m.out,
                             title = "order_by = unmatched",
-                            subtitle = "")
+                            subtitle = "",
+                            axis_text_size = 1)
 
 matched <- create_love_plot(m.out,
                             title = "order_by = matched",
                             order_by = "matched",
-                            subtitle = "")
+                            subtitle = "",
+                            axis_text_size = 1)
 
 difference <- create_love_plot(m.out,
                                title = "order_by = difference",
                                order_by = "difference",
-                               subtitle = "")
+                               subtitle = "",
+                               axis_text_size = 1)
 
 library(patchwork)
 

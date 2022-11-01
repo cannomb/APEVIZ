@@ -61,8 +61,6 @@ create_love_plot(m.out,
                  subtitle = "")
 ```
 
-    ## Joining, by = "covariate"
-
 ![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
@@ -70,30 +68,21 @@ create_love_plot(m.out,
 
 default <- create_love_plot(m.out,
                             title = "order_by = unmatched",
-                            subtitle = "")
-```
+                            subtitle = "",
+                            axis_text_size = 1)
 
-    ## Joining, by = "covariate"
-
-``` r
 matched <- create_love_plot(m.out,
                             title = "order_by = matched",
                             order_by = "matched",
-                            subtitle = "")
-```
+                            subtitle = "",
+                            axis_text_size = 1)
 
-    ## Joining, by = "covariate"
-
-``` r
 difference <- create_love_plot(m.out,
                                title = "order_by = difference",
                                order_by = "difference",
-                               subtitle = "")
-```
+                               subtitle = "",
+                               axis_text_size = 1)
 
-    ## Joining, by = "covariate"
-
-``` r
 library(patchwork)
 
 default|matched|difference
