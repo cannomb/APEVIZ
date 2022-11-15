@@ -239,7 +239,8 @@ create_tiefighter_plot <- function(estimate_objects,
           panel.grid.minor.y = element_blank(),
           panel.grid = element_line(color = "#c7b8b3"),
           axis.text.y = element_text(face = "bold"),
-          axis.ticks = element_blank()) %>% return()
+          axis.ticks = element_blank(),
+          plot.title.position = "plot") %>% return()
 }
 
 
