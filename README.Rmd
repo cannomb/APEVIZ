@@ -99,7 +99,7 @@ glm_obs <- list("removal 2 year" = estimate_effects_removal2year,
 
 create_tiefighter_plot(glm_obs,
                        x_title = "Estimated Risk Difference",
-                       title = "Tie-fighter Plot Depicting Estimates and Confidence Intervals for Three Different Outcomes",
+                       title = "Tie-fighter Plot Depicting Estimates\nand Confidence Intervals for Three Different Outcomes",
                        subtitle = "")
 ```
 
