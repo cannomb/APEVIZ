@@ -75,13 +75,13 @@ matched <- create_love_plot(m.out,
                             title = "order_by = matched",
                             order_by = "matched",
                             subtitle = "",
-                            axis_text_size = 4)
+                            axis_text_size = 1)
 
 difference <- create_love_plot(m.out,
                                title = "order_by = difference",
                                order_by = "difference",
                                subtitle = "",
-                               axis_text_size = 4)
+                               axis_text_size = 1)
 
 library(patchwork)
 
@@ -89,3 +89,9 @@ default|matched|difference
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-3-2.png)<!-- -->
+
+### create_tiefighter_plot()
+
+the point of this function is to compare effect estimates and confidence
+intervals across different models or outcomes. Currently, it only works
+with binary outcomes, as it takes in glm objects by default

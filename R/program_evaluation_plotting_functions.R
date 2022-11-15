@@ -136,9 +136,7 @@ create_love_plot <- function(input,
                                             #axis.ticks = element_blank(),
                                             plot.title.position = "plot",
                                             legend.position = legend_position,
-                                            axis.text.x = element_text(size = axis_text_size,
-                                                                       angle = axis_text_angle,
-                                                                       hjust = axis_text_hjust))})
+                                            axis.text.x = element_text(size = axis_text_size))})
   }
 
   if(class(input)[1] == "matchit"){
@@ -223,7 +221,7 @@ create_tiefighter_plot <- function(estimate_objects,
                             estimate = sapply(estimates, "[[", 2),
                             std.err = sapply(estimates, "[[", 4))
 
-  cem_results %>%
+  estimates_table %>%
     ggplot() +
     geom_point(aes(x = estimate, y = outcome)) +
     geom_segment(aes(x = estimate - (1.96 * std.err),
