@@ -90,7 +90,7 @@ create_love_plot <- function(input,
                              background_color = "#F1EEE9",
                              axis_text_size = 8,
                              axis_text_angle = 45,
-                             axis_text_hjusts = 1,
+                             axis_text_hjust = 1,
                              legend_position = "bottom"
 ){
   if(class(input)[1] == "tbl_df"){

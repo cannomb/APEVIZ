@@ -71,10 +71,37 @@ default|matched|difference
 ### create_tiefighter_plot()
 the point of this function is to compare effect estimates and confidence intervals across different models or outcomes. Currently, it only works with binary outcomes, as it takes in glm objects by default
 
-```{r}
-
+```{r message=FALSE, warning=FALSE, include=FALSE}
+matched_data <- read_csv("S:/Offices/Salem (500 Summer St)/OBI/Staff Working Folders/CBray/ORRAI_2021/Pods/Program Evaluation/FC&S/final_cem_matched_data.csv")
+library(lmtest)
 ```
 
+```{r}
+estimate_effects_removal2year <- glm(removal_2year ~ treated,
+                                     data = matched_data,
+                                     weights = weights,
+                                     family = quasibinomial(link = "identity"))
+
+effects_investigation2year <- glm(investigation_2year ~ treated,
+                                  data = matched_data,
+                                  weights = weights,
+                                  family = quasibinomial(link = "identity"))
+
+effects_founded2year <- glm(founded_2year ~ treated,
+                            data = matched_data,
+                            weights = weights,
+                            family = quasibinomial(link = "identity"))
+
+#create a names list of glm objects, remember that each item's name because it's label on the plot's y-axis.
+glm_obs <- list("removal 2 year" = estimate_effects_removal2year,
+                "investigation 2 year" = effects_investigation2year,
+                "founded 2 year" = effects_founded2year)
+
+create_tiefighter_plot(glm_obs,
+                       x_title = "Estimated Risk Difference",
+                       title = "Tie-fighter Plot Depicting Estimates and Confidence Intervals for Three Different Outcomes",
+                       subtitle = "")
+```
 
 
 
